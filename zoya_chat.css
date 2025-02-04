@@ -2191,7 +2191,7 @@
         flex: 1 1 auto !important;
         min-height: 0 !important;
         height: calc(-60px + 100vh) !important;
-        padding: 60px 5px !important;
+        padding: 60px 0px !important;
         padding-bottom: 70px !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;

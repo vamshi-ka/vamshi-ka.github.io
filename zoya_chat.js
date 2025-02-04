@@ -7765,16 +7765,106 @@ $(document).ready(function () {
     localStorage.setItem(feedbackKey, 'true');
   }
 
+  function updateFeedbackPosition() {
+    const $feedbackBar = $('.feedback-bar');
+    const $rightChat = $('.right-chat');
+    const $quesWithAns = $('.ques_with_ans');
+
+    if (window.innerWidth <= 768) {
+      // First remove feedback bar if it exists elsewhere
+      $feedbackBar.detach();
+
+      // Insert it at the very beginning of chat content
+      $feedbackBar.prependTo($rightChat);
+
+      $feedbackBar.css({
+        position: 'relative',
+        top: '0',
+        left: '0',
+        right: '0',
+        width: '100%',
+        'z-index': '100',
+        background: '#f8f8f8',
+        padding: '8px 10px',
+        margin: '0',
+        'border-bottom': '1px solid #eee',
+      });
+
+      // Remove any extra spacing
+      $quesWithAns.css('margin-top', '0');
+    } else {
+      // Reset styles for desktop
+      $feedbackBar.css({
+        position: '',
+        top: '',
+        left: '',
+        right: '',
+        width: '',
+        'z-index': '',
+        padding: '4px 10px',
+        margin: '',
+        'border-bottom': '1px solid #eee',
+      });
+
+      // Move back to original position if needed
+      if ($rightChat.find('.feedback-bar').length) {
+        $feedbackBar.prependTo('.Darban_search_open_window');
+      }
+    }
+  }
+
   // Initially hide the feedback bar
   $('.feedback-bar').hide();
 
   function showFeedbackBar() {
     if (!hasUserGivenFeedback() && userInteractionState.hasInteracted) {
-      $('.feedback-bar').fadeIn(300);
+      const $feedbackBar = $('.feedback-bar');
+
+      $feedbackBar.fadeIn({
+        duration: 300,
+        start: function () {
+          updateFeedbackPosition();
+        },
+        complete: function () {
+          updateFeedbackPosition();
+          // Ensure visibility
+          $(this).css('display', 'flex');
+        },
+      });
+
       $('.feedback-btn').prop('disabled', false);
     }
   }
 
+  // Add scroll effect for mobile
+  $('.right-chat').on(
+    'scroll',
+    _.throttle(function () {
+      if (window.innerWidth <= 768) {
+        const $feedbackBar = $('.feedback-bar');
+        if ($feedbackBar.length) {
+          const scrollTop = $(this).scrollTop();
+          if (scrollTop > 0) {
+            $feedbackBar.css('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
+          } else {
+            $feedbackBar.css('box-shadow', 'none');
+          }
+        }
+      }
+    }, 100)
+  );
+
+  // Window resize handler
+  $(window).on(
+    'resize',
+    _.debounce(function () {
+      if ($('.feedback-bar').is(':visible')) {
+        updateFeedbackPosition();
+      }
+    }, 250)
+  );
+
+  // Override sendMessageOnSearch
   const originalSendMessageOnSearch = window.sendMessageOnSearch;
   window.sendMessageOnSearch = function (...args) {
     userInteractionState.hasInteracted = true;
@@ -7842,7 +7932,12 @@ $(document).ready(function () {
         markFeedbackAsGiven();
 
         $feedbackBar.fadeOut(300, function () {
+          const $rightChat = $('.right-chat');
           $(this).remove();
+
+          // Clean up any remaining styles
+          $rightChat.css('padding-top', '');
+          $('.ques_with_ans').css('margin-top', '');
         });
 
         if (wsHandler?.ws?.readyState === WebSocket.OPEN) {
@@ -7877,11 +7972,11 @@ $(document).ready(function () {
             ? 'Session not found. Please try refreshing the page.'
             : 'Unable to submit feedback. Please try again later.';
 
-        $feedbackBar.append(
-          `<div class="feedback-error" style="color: #dc3545; font-size: 12px; margin-top: 5px;">
-            ${errorMessage}
-          </div>`
-        );
+        $feedbackBar.append(`
+                <div class="feedback-error" style="color: #dc3545; font-size: 12px; margin-top: 5px;">
+                    ${errorMessage}
+                </div>
+            `);
 
         setTimeout(() => {
           $('.feedback-error').fadeOut(300, function () {
@@ -7897,4 +7992,10 @@ $(document).ready(function () {
   if (hasUserGivenFeedback()) {
     $('.feedback-bar').remove();
   }
+
+  if ($('.feedback-bar').is(':visible')) {
+    updateFeedbackPosition();
+  }
+
+  updateFeedbackPosition();
 });
