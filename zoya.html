@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google" content="notranslate">
+    <meta name="theme-color" content="#cdbcc6">
+    <title>Zoya Chat</title>
+    <meta name="description"
+        content="Zoya Chat - Your intelligent shopping assistant. Get personalized product recommendations, compare items, and find the best deals with our AI-powered chat interface.">
+    <meta name="keywords" content="shopping assistant, AI chat, product recommendations, Zoya chat, shopping help">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@200;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Favicons and Manifests -->
+    <link rel="icon" type="image/x-icon" href="/Images/10.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/Images/10.ico">
+    <link rel="apple-touch-icon" href="/Images/10.ico">
+    <link async="true" rel="manifest" href="manifest.json">
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="zoya_chat.css">
+
+    <!-- JavaScript Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- Chat Widget Container -->
+    <div id="zoya-chat-container">
+        <!-- Chat Window -->
+        <div class="Darban_search_open_window">
+            <div class="chat-conversion">
+                <div class="container-fluid ai-search-chat">
+                    <div class="header-chat" data-track="chat-header">
+                        <div id="newchat_btn">
+                            <i class="bi bi-pencil-square newChat" style="display: none;"
+                                data-track="new-chat-button"></i>
+                        </div>
+                        <div id="header-icon">
+                            <img src="/Images/zoya-icon.png" alt="Zoya Icon" class="header-icon">
+                            <p>Your shopping assistant</p>
+                        </div>
+                        <div id="minimise_btn">
+                            <i class="bi bi-x cht_close" data-track="close-chat-button"></i>
+                        </div>
+                    </div>
+                    <div class="feedback-bar">
+                        <span class="feedback-text">Was Zoya helpful?</span>
+                        <button class="feedback-btn like">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                            </svg>
+                        </button>
+                        <button class="feedback-btn dislike">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="right-chat p-0">
+                        <div class="content_div">
+                            <div class="default_screen" data-track="Initializing-screen">
+                                <div class="darban-initial-loader">
+                                    <div class="darban-loader-dots">
+                                        <div class="darban-loader-dot"></div>
+                                        <div class="darban-loader-dot"></div>
+                                        <div class="darban-loader-dot"></div>
+                                    </div>
+                                    <div class="darban-loader-text">Initializing chat...</div>
+                                </div>
+                            </div>
+                            <div class="listing_div" style="display: none;">
+                                <div class="ques_with_ans_main">
+                                    <div class="initial-message">
+                                        <div class="ques_with_ans">
+                                            <div class="questions_div" data-track="chat-messages">
+                                                <div class="is-typing" style="display: none;">
+                                                    <span class="jump1"></span>
+                                                    <span class="jump2"></span>
+                                                    <span class="jump3"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat_with_cb">
+                        <span class="search-span">
+                            <textarea id="chat-input" class="chat-input" placeholder="Your questions go here..."
+                                data-track="chat-input-field"></textarea>
+                            <span id="send-button" class="send-button" data-track="send-button">
+                                <img src="/Images/send_button.svg" alt="send_button">
+                            </span>
+                        </span>
+                        <div class="powered-by">
+                            <span class="powered-text" data-track="powered-by">Powered by</span>
+                            <div class="logo-container">
+                                <img src="/Images/powered-by-darban-logo.png" alt="Darban Logo" class="darban-logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Button -->
+        <div class="Darban_search">
+            <div class="chat-text-popup" id="chatPopup"></div>
+            <a href="#">
+                <img src="/Images/ask-me-anything.svg" alt="zoya chat logo" />
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="zoya_chat.js"></script>
+</body>
+
+</html>
