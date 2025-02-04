@@ -498,7 +498,7 @@ class WebSocketHandler {
       }
 
       if (!data.currentAction) {
-        console.log(new Error('No action specified in message'));
+        console.log(new Error('No action specified'));
         return;
       }
 
